@@ -1,0 +1,206 @@
+%%% MATH COMMANDS %%%
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\RNum}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt]{artikel1}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage[a4paper, margin=3cm]{geometry}
+\usepackage[T1]{fontenc}
+\sffamily
+\usepackage{textpos}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{eurosym}
+\usepackage{ragged2e}
+\usepackage{blindtext}
+\usepackage{romannum}
+\usepackage[
+    backend=biber,
+    style=apa,
+  ]{biblatex}
+\usepackage[most]{tcolorbox}
+\addbibresource{Real and Fourier Analysis.bib}
+\usepackage{hyperref}
+\hypersetup{
+    pdfpagemode=UseNone, 
+    colorlinks=true,
+    filecolor=blue,
+    linkcolor=red,
+    citecolor=black,
+    urlcolor=blue
+}
+\DeclareAutoCiteCommand{textcite}{\textcite}{\textcites}
+\ExecuteBibliographyOptions{autocite=textcite}
+\linespread{1.25}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\newtcolorbox[auto counter]{proposition}[1][]{
+  enhanced,
+  breakable,
+  fonttitle=\scshape,
+  title={Proposition \thetcbcounter},
+  #1
+}
+
+\begin{document}
+\pagenumbering{arabic}
+\begin{textblock*}{250mm}(0cm,-2cm)
+\noindent Introduction to Real \& Fourier Analysis
+\end{textblock*}
+\begin{textblock*}{250mm}(.80\textwidth,-2cm)
+\noindent Santeri Väätäjä \\ 015024877
+\end{textblock*}
+\vspace*{-2cm}
+\section*{Total Variation of a Complex Measure}
+\vspace*{-.5cm}
+\line(1,0){10cm}
+\vspace*{.5cm}
+
+\noindent In this essay, I am going to go through the proofs of
+
+\begin{enumerate}
+    \item The total variation $|\mu|$ of a complex measure $\mu$ is a positive measure on $\sigma$-algebra $\mathcal{M}$ of subsets of $X$.
+    \item If $\mu$ is a complex measure on $\mathcal{M}$, then $|\mu|<\infty$.
+\end{enumerate}
+
+\noindent and the goal is to discuss each step of these proofs in detail. I will be using the \textit{Measure, Integration \& Real Analysis} by \autocite{axler_measure_2019} as a reference, and follow the proofs that are given there.
+
+\subsection*{Total variation of $|\mu|$ is a positive measure}
+
+\begin{proposition}[label=prop:var-is-measure]
+    Let $\mathcal{M}$ be a $\sigma$-algebra of subset $X$ and $\mu:\mathcal{M}\rightarrow\mathbb{C}$ a complex measure. Then for the total variation of $\mu$,
+    \begin{gather}\label{eq:variation_is_measure}
+        |\mu(E)|=\sup_{(E_i)}\sum_{i=1}^\infty |\mu(E_i)|
+    \end{gather}
+    where $(E_i)$ is a countable disjoint collection of $E_i\in\mathcal{M}$ such that $E=\bigcup_iE_i$, holds that it is a positive measure.
+\end{proposition}
+
+
+The total variation $|\mu|$ qualifies as a positive measure if it holds that for a set function $|\mu|:\mathcal{M}\rightarrow[0,\infty]$, $|\mu|(\emptyset)=0$ and $|\mu|\left(\bigcup_i^\infty E_i\right)=\sum_i^\infty|\mu(E_i)|$ for every disjoint sequence $E_1,E_2,\ldots\in\mathcal{M}$. I will follow mostly the proof provided in \autocite{axler_measure_2019}.
+
+The proof is done in two parts. The first part considers empty sets and shows that the total variational measure must take the value of zero for empty sets. This follows relatively straightforward from the definition of complex measure which provides countable additivity for the measure $\mu$. The next stage of the proof proves that the $\sigma$-additivity holds for the total variation measure. This proof progresses by showing that the inequalities hold to both direction in equation \ref{eq:variation_is_measure}. These inequalities are derived mostly from the properties of supremum which can be combined with the countable additivity which links the measure of the sequence and the sum of the measures.
+
+\textit{Proof:} Let's first consider the empty set case. Assume that $E=\emptyset$. This set admits a partition $(E_i)$ where each $E_i=\emptyset$. Since $\mu$ is a complex measure by assumption the countable additivity property gives us: $\mu\left(\bigcup_{i=1}^\infty E_i \right)=\sum_{i=1}^\infty\mu(E_i)$. By substituting the empty set in this condition $\mu\left(\emptyset\right)=\sum_{i=1}^\infty\mu(\emptyset)$. The previous equation can only hold when $\mu(\emptyset)=0$ as zero is the only number that remains unchanged under infinite addition. Therefore, for the total variation holds $|\mu|(E)=|\mu|(\emptyset)=\sum_{i=1}^\infty|\mu(E_i)|=\sum_{i=1}^\infty|\mu(\emptyset)|$ and since the previous step established that $\mu(\emptyset)$ must be zero, this implies $\sum_{i=1}^\infty|\mu(\emptyset)|=|\mu|(\emptyset)=0$.
+
+Let's now consider the case where the sequence of sets can consist of arbitrary sets in the $\sigma$-algebra $E_1,E_2,\ldots\in\mathcal{M}$. In order to establish the result of $|\mu|$ being a positive measure, the $\sigma$-additivity needs to hold for all disjoint sequences $E_1,E_2,\ldots$ that belong to the $\sigma$-algebra $\mathcal{M}$. 
+
+First by fixing $n\in\mathbb{N}$ and choosing a subsequence $E_1,E_2,\ldots,E_n$, these sets can be divided into disjoint sets so that for each $i\in\{1,2,\ldots,n\}$ the partition belongs to the set $E_i$ followingly $A_{1i},A_{2i},\ldots,A_{m_ii}\subset E_i$. As $E_i$ are disjoint and $A_{ji}$ are disjoint and contained in $E_i$, $\bigcup_{i=1}^\infty\bigcup_{j=1}^m A_{ji}\subset\bigcup_i^\infty E_i$
+
+\begin{align*}
+    \sum_{i=1}^n\sum_{j=1}^m|\mu(A_{ij})|&\leq\sup_{(A_{ji})}\sum_{i=1}^n\sum_{j=1}^m |\mu(A_{ij})| \\
+    &=\sum_{i=1}^n|\mu|(E_i) \\
+    &\leq|\mu|\left(\bigcup_{i=1}^\infty E_i\right)
+\end{align*}
+
+\noindent Where the second inequality holds for any $n\in\mathbb{N}$ and therefore 
+
+\begin{gather*}
+    \sum_{i=1}^\infty|\mu|(E_i)\leq|\mu|\left(\bigcup_{i=1}^\infty E_i\right)
+\end{gather*}
+
+\noindent This concludes the proof for the direction $|\mu(E)|\geq\sup_{(E_i)}\sum_{i=1}^\infty |\mu(E_i)|$. 
+
+To prove the other direction let the sequences $\{E_i\}_{i=1}^\infty$ be defined as in the previous stage and now the sequence of sets $A_{1},A_{2},\ldots,A_{m}\subset\bigcup_{i=1}^\infty E_i$ where $A_j$ are disjoint with each other. Since each $A_j$ belong to the union of $E_i$ the inclusion $\bigcup_{i=1}^\infty \bigcup_{j=1}^m A_j\cap E_i\subset\bigcup_{i=1}^\infty E_i$ also holds. By taking the supremum of the left-hand side with respect to the partition $(A_j)$ we also acquire the partition for which the absolute values of $|\mu|$ form the total variation. Therefore, The following inequality holds. 
+
+\begin{align}\label{eq:tv-ineq1}
+    \sum_{i=1}^\infty|\mu|(E_i)\geq\sum_{i=1}^\infty\sum_{j=1}^m|\mu(E_i\cap A_j)|
+\end{align}
+
+Now by changing the order of summation in the equation \ref{eq:tv-ineq1} and with the help of triangle inequality, it gives
+
+\begin{align}\label{eq:tv-ineq2}
+    \sum_{j=1}^m\sum_{i=1}^\infty|\mu(E_i\cap A_j)|&\geq\sum_{j=1}^m|\sum_{i=1}^\infty\mu(E_i\cap A_j)| \\
+    &=\sum_{j=1}^m|\mu(A_j)|
+\end{align}
+
+\noindent As $\mu$ is assumed to be a complex measure, the property of countable additivity is assumed to hold for it. As a consequence of that and the assumption that $\bigcup_{j=1}^m A_j\subset\bigcup_{i=1}^\infty E_i$, the equality $\sum_{i=1}^\infty\mu(E_i\cap A_j)=\mu\left(\bigcup_{i=1}^\infty (E_i\cap A_j)\right)=\mu(A_j)$ holds for all $A_j$.
+
+As the total variation measure of the set $\bigcup_{i=1}^\infty E_i$ is defined as a supremum of the expression $\sum_{j=1}^m|\mu(A_j)|$. Combining the equation \ref{eq:tv-ineq1} together with the supremum of equation \ref{eq:tv-ineq2} gives the other direction of the inequality needed i.e., $\sum_{i=1}^\infty|\mu|(E_i)\geq\sum_{j=1}^m|\mu|(A_j)=|\mu|\left(\bigcup_{i=1}^\infty E_i\right)$. This in turn concludes the argument for the equation introduced in \ref{eq:variation_is_measure} and thus also the proof for the total variation being a positive measure. As the $\sigma$-additivity and the mapping of the empty set to zero being unique hold for the total variation measure, it satisfies the properties of a positive measure.
+\rightline{$\blacksquare$}
+
+\subsection*{The total variation is finite}
+
+Let's start by introducing some auxiliary results that will be used to get the finiteness result. These results, as well as the proof of the finiteness itself, will be following the proof from \autocite{axler_measure_2019}.
+
+\begin{proposition}[colback=white,label=prop:decomp]
+    If $\mu$ is a real measure on a measurable space $(X,\mathcal{M})$ and $E\in\mathcal{M}$. Then $|\mu|(E)=\sup\{|\mu(A)|+|\mu(B)|:\,A,B\text{ are disjoint sets in }\mathcal{M}\text{ and }A\cup B\subset E\}$.
+\end{proposition}
+
+\textit{Proof:} Let $n\in\mathbb{N}$ and $E_1,\ldots,E_n$ are disjoint sets in $\mathcal{M}$ such that the union belongs to $E$. Then by defining $A$ and $B$ to be the sets where $\mu$ takes positive/negative values as follows
+
+\begin{gather*}
+    A=\bigcup_{\{i|\mu(E_i)>0\}}E_i \\
+    B=\bigcup_{\{i|\mu(E_i)<0\}}E_i
+\end{gather*}
+
+\noindent $A$ and $B$ are now clearly disjoint, belong to $\mathcal{M}$ and the union of these sets belong to $E$ since the union of $E_i$ also belongs to $E$. Thus $|\mu(A)|+|\mu(B)|=|\mu(E_1)|+\ldots+|\mu(E_n)|$ for collection of $E_i$ that defines the total variation measure.
+
+\rightline{$\blacksquare$}
+
+\begin{proposition}[colback=white,label=prop:convergence]
+    $\mu\left(\bigcap_{i=1}^\infty E_i\right)=\lim_{i\rightarrow\infty}\mu(E_i)$ for all decreasing sequences $E_1\supset E_2\supset\ldots$ of sets in $\mathcal{M}$.
+\end{proposition}
+
+\textit{Proof:} Let's begin by showing first that if $E_1\subset E_2\subset\ldots$, then $\mu\left(\bigcup_{i=1}^\infty E_i\right)=\lim_{i=1}\mu(E_i)$. If for some $i\in\mathbb{N}$ holds that $\mu(E_i)=\infty$ then the equality holds as both sides must be equal to $\infty$.
+
+Now let the $\mu(E_i)<\infty$ for all $i\in\mathbb{N}$. The original increasing sequence of sets can be augmented with $E_0=\emptyset$ so $\bigcup_{i=1}^\infty E_i=\bigcup_{i=1}^\infty E_i\setminus E_{i-1}$, where $\{E_i\setminus E_{i-1}\}_{i=1}^\infty$ is sequence of disjoint sets, holds. Then by converting the union of sets first to the union of disjoint sets and then, by $\sigma$-additivity to telescoping sum the original result is acquired.
+
+\begin{align*}
+    \mu\left(\bigcup_{i=1}^\infty E_i \right)&=\sum_{i=1}^\infty \mu(E_i) \\
+    &=\sum_{i=1}^\infty \mu(E_i\setminus E_{i-1}) \\
+    &=\sum_{i=1}^\infty \mu(E_i)-\mu(E_{i-1}) \\
+    &=\lim_{N\rightarrow\infty}\sum_{i=1}^N \mu(E_i)-\mu(E_{i-1}) \\
+    &=\lim_{N\rightarrow\infty}\mu(E_N)
+\end{align*}
+
+Using this result it's now possible to get the result for decreasing sequence. Let now $E_1\supset E_2\supset\ldots$ be the decreasing sequence. Then by DeMorgan's laws $E_1\setminus \bigcap_{i=1}^\infty E_i=\bigcup_{i=1}^\infty E_1\setminus E_i$ where $\{E_1\setminus E_i\}_{i=1}^\infty$ is an increasing sequence of sets. The previous result for the unions of increasing sequences of sets thus implies that $\mu\left(E_1\setminus\bigcap_{i=1}^\infty E_i\right)=\lim_{i\rightarrow\infty}\mu(E_1\setminus E_i)$. That can be modified to take a form
+
+\begin{gather*}
+    \mu(E_1)-\mu\left(\bigcap_{i=1}^\infty E_i\right)=\mu(E_1)-\lim_{i\rightarrow\infty}\mu(E_i)
+\end{gather*}
+
+\noindent which in turn implies the proposition. 
+
+\rightline{$\blacksquare$}
+
+The original claim can now be proven with the help of these two results.
+
+\begin{proposition}[label=prop:finiteness]
+    Let $\mathcal{M}$ be a $\sigma$-algebra of subsets fo $X$ and $\mu:\mathcal{M}\rightarrow\mathbb{C}$ a complex measure. Then the total variation measure $|\mu|(E)=\sup_{(E_i)}\sum_{i=1}^\infty |\mu(E_i)|$ is finite i.e., $|\mu|(X)<\infty$.
+\end{proposition}
+
+This proof will progress by making an assumption that contradicts the claim for real total variation measures. Then it is possible to construct a suitable sequence of sets that fulfills a set of conditions that are in contradiction with previously proven properties of a measure. This can be then applied separately to complex measure's real and imaginary parts which will conclude the proof.
+
+\textit{Proof:} Let's begin by looking at the case where the imaginary part of the measure is zero i.e., $\mu$ is a real measure. Then let's also assume the total variation measure to be infinite $|\mu|(X)=\infty$, as a contradiction to the original claim. Then it is possible to choose a sequence of sets that are decreasing $E_0\supset E_1\supset\ldots$, the first set denotes the whole space $E_0=X$, and $E_n\in\mathcal{M}$ has been chosen so that $|\mu|(E_n)=\infty$ and $|\mu(E_n)|\geq n$. Now due to the the assumption that the total variation measure is infinite and combining it with the proposition \ref{prop:decomp} gives $\infty=|\mu|(E_n)=|\mu(A)|+|\mu(B)|$. Additionally, as $|\mu|(E_n)\geq|\mu(E_n)|\geq n$ there exist some $E_n\supset A\in\mathcal{M}$ for which $|\mu(A)|\geq n+1+|\mu(E_n)|$. Then the set $E_n$ without the the parts that belong to $A$ can be written as
+
+\begin{align*}
+    |\mu(E_n\setminus A)|&=|\mu(E_n)-\mu(A)| \\
+    &=|\mu(A)-\mu(E_n)| \\
+    &\geq|\mu(A)|-|\mu(E_n)| \\
+    &\geq n+1
+\end{align*}
+
+\noindent and then the total variation measure is $\infty=|\mu|(E_n)=|\mu(A)|+|\mu(E_n\setminus A)|$. By the proposition \ref{prop:var-is-measure} the total variation measure is a positive measure and thus $|\mu(A)|$, $|\mu(E_n\setminus A)|$ or both are equal to $\infty$. If $|\mu|(A)=\infty$ let $E_{n+1}=A$ and otherwise $E_{n+1}=E_n\setminus A$. Then $E_n\supset E_{n+1}$, 
+$|\mu|(E_{n+1})=\infty$, and $|\mu(E_n)|\geq n+1$.
+
+Then by proposition \ref{prop:convergence} holds $\mu\left(\bigcap_{i=1}^\infty E_i\right)=\lim_{i\rightarrow\infty}\mu(E_i)$, but the previous result indicates that for each $n\in\mathbb{N}$, $|\mu(E_n)|\geq n$ and therefore the limit of does not exist. Therefore $\mu$ cannot be a real measure.
+
+Now the inequality can be applied to the real and imaginary part of general complex measure, which gives
+
+\begin{gather*}
+    |\mu|(X)\leq|\Re\mu|(X)+|\Im\mu|(X)<\infty
+\end{gather*}
+
+This concludes the proof and shows that the total variation measure of a complex measure is a finite positive measure.
+
+\rightline{$\blacksquare$}
+
+\clearpage
+
+\printbibliography
+
+\end{document}
